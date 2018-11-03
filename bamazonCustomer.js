@@ -1,33 +1,40 @@
-var mysql = require("mysql");
-var inquirer = require("inquirer");
+require('dotenv');
+const mysql = require("mysql");
+const inquirer = require("inquirer");
+const chalk = require('chalk');
+const PASS = process.env.PASS;
 
-// create the connection information for the sql database
-var connection = mysql.createConnection({
+
+const connection = mysql.createConnection({
   host: "localhost",
-
-  // Your port; if not 3306
   port: 3306,
-
-  // Your username
   user: "root",
-
-  // Your password
   password: "root",
   database: "bamazon_db"
 });
-// connect to the mysql server and sql database
+
 connection.connect(function(err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId + "\n");
-    start();
+    display();
   });
 
-  function start(){
-    console.log("Selecting all products...\n");
+  function display(){
+    console.log("Listing all products...\n");
     connection.query("SELECT * FROM products", function(err, res) {
       if (err) throw err;
-      // Log all results of the SELECT statement
-      console.log(res);
-      connection.end();
+      let count=0
+      for(i=0;i<res.length;i++){
+          count+=1;
+          if(count<=9){
+            console.log(chalk.red(`Item ${res[i].item_id}`) + ` | `+ chalk.blue(`Product Name: ${res[i].product_name}`) + ` --- `+ chalk.green(`Department ${res[i].department_name}`) + ` ---` + chalk.yellow(` Price: ${res[i].price}`) + ` --- Quantity: ${res[i].stock_quantity}`);
+            console.log(`----------------------------------------------------------------------------------------------------------------------`);
+          } else {
+            console.log(chalk.red(`Item ${res[i].item_id}`) + `| `+ chalk.blue(`Product Name: ${res[i].product_name}`) + ` --- `+ chalk.green(`Department ${res[i].department_name}`) + ` ---` + chalk.yellow(` Price: ${res[i].price}`) + ` --- Quantity: ${res[i].stock_quantity}`);
+            console.log(`----------------------------------------------------------------------------------------------------------------------git `);
+          }
+          
+      }
+       connection.end();
     });
   }

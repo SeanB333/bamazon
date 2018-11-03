@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/SeanB333/bamazon#readme",
   "dependencies": {
+    "chalk": "^2.4.1",
+    "dotenv": "^6.1.0",
     "inquirer": "^6.2.0",
     "mysql": "^2.16.0"
   }
