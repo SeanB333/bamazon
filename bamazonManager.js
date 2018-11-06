@@ -90,11 +90,44 @@ function manager() {
                             )
                         });
                 }
-                if (answer === "Add New Product") {
-                    console.log("add p")
+                if (answer.inventory === "Add New Product") {
+                    inquirer
+                        .prompt([{
+                                name: "newName",
+                                type: "input",
+                                message: "What is the name of the new Product"
+                            },
+                            {
+                                name: "newDept",
+                                type:"input",
+                                message:"what is the Department of the new Product",
+                            },
+                            {
+                                name: "newPrice",
+                                type:"input",
+                                message:"what is the Price of the new Product",
+                            },
+                            {
+                                name: "newQuan",
+                                type:"input",
+                                message:"what is the Quantity of the new Product",
+                            }
+                        ]).then(function (answer){
+                            connection.query(
+                                "INSERT INTO products SET ?",
+                                {
+                                    product_name:answer.newName,
+                                    department_name:answer.newDept,
+                                    price: answer.newPrice,
+                                    stock_quantity: answer.newQuan
+                                }, function(err){
+                                    if(err) throw err;
+                                    console.log("Your New Product has been Added");
+                                    connection.end();
+                                }
+                            )
+                        })
                 }
-
-
             });
     });
 }

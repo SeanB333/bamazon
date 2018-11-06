@@ -1,14 +1,14 @@
-const customer = require("./bamazonCustomer.js");
-const manager = require("./bamazonManager.js");
+const customerProg = require("./bamazonCustomer.js");
+const managerProg = require("./bamazonManager.js");
 const command = process.argv[2];
 
 
 switch(command){
     case "customer":
-        customer;
+        customerProg;
         break;
     case "manager":
-        manager;
+        managerProg;
         break;
     default:
         console.log("please enter a command.");
