@@ -16,10 +16,10 @@ const connection = mysql.createConnection({
 connection.connect(function (err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId + "\n");
-  display();
+  customer();
 });
 
-function display() {
+function customer() {
   console.log("Listing all products...\n");
   connection.query("SELECT * FROM products", function (err, res) {
     if (err) throw err;
@@ -38,7 +38,7 @@ function display() {
       .prompt([{
           name: "item",
           type: "input",
-          message: "What is the item you would like to submit?",
+          message: "What is the number of the item you would like to buy ?",
 
         },
         {
@@ -49,13 +49,11 @@ function display() {
         }
       ])
       .then(function (answer) {
-        console.log(chalk.red(`works for ${answer.item} and ${answer.quantity}`));
+        
         const item = parseInt(answer.item) - 1;
-        console.log(item);
         const quantity = parseInt(answer.quantity);
-        console.log(quantity);
+        const order = res[item].product_name; 
         const total = res[item].price * quantity;
-        console.log(total);
 
         if (res[item].stock_quantity >= quantity) {
           connection.query("UPDATE products SET ? WHERE ?", [{
@@ -66,11 +64,16 @@ function display() {
             }
           ], function (err, res) {
             if (err) throw err;
-            console.log("Success! Your total is $" + total.toFixed(2) + ". Your item(s) will be shipped to you in 3-5 business days.");
+            console.log(`Thank you for your order to ${chalk.blue('BAMAZON')} 
+
+Your total is $"${chalk.yellow(total)}". 
+-----------------------------------------------------------------------------
+Your order of ${chalk.red(quantity)} : ${chalk.blue(order)}  will be shipped to you in 3-5 business days.
+-----------------------------------------------------------------------------`);
             connection.end();
           });
         } else {
-          console.log("sorry there are not enough");
+          console.log(`Im Sorry we only have ${chalk.red(res[item].stock_quantity)} left of ${chalk.blue(order)}`);
           connection.end();
         }
       });
