@@ -44,7 +44,7 @@ Here is the link to the video : [Video](https://drive.google.com/file/d/1OMfx4_2
 
 >## Screenshots
 
-![sceenShot](12-mysql/02-Homework/bamazon/screenshots/bamazonScreenshot.png)
+![sceenShot](https://raw.githubusercontent.com/SeanB333/bamazon/master/screenshots/bamazonScreenshot.png)
 
 
 
